@@ -21,6 +21,40 @@ test("management homepage stays clear and usable at desktop and mobile sizes", a
   }
 });
 
+test("official logo remains intact and borderless across branded screens and sizes", async ({ page }) => {
+  for (const route of ["/", "/account/sign-in"]) {
+    for (const viewport of [
+      { width: 1440, height: 900 },
+      { width: 768, height: 1024 },
+      { width: 390, height: 844 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto(route);
+      const frame = page.locator(".ucsa-logo-frame");
+      await expect(frame).toHaveCount(1);
+      await expect(frame.locator("img")).toHaveAttribute("alt", "Official UCSA logo");
+      const details = await frame.evaluate((element) => {
+        const style = getComputedStyle(element);
+        const image = element.querySelector("img");
+        return {
+          background: style.backgroundColor,
+          border: style.borderTopWidth,
+          radius: style.borderTopLeftRadius,
+          imageLoaded: Boolean(image?.complete && image.naturalWidth > 0),
+          ratio: image ? image.naturalWidth / image.naturalHeight : 0,
+        };
+      });
+      expect(details).toMatchObject({
+        background: "rgb(236, 236, 236)",
+        border: "0px",
+        radius: "0px",
+        imageLoaded: true,
+        ratio: 1,
+      });
+    }
+  }
+});
+
 test("management deployment rejects ballot submission before any account or database work", async ({ request }) => {
   const response = await request.post("/api/account/elections/00000000-0000-4000-8000-000000000001/ballot", {
     data: { selections: [] },

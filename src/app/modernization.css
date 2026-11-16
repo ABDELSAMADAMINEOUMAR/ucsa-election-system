@@ -2,6 +2,7 @@
   --ucsa-primary: #1264a3;
   --ucsa-surface: #fff;
   --ucsa-radius: 10px;
+  --ucsa-logo-background: #ececec;
 }
 .ucsa-brand {
   gap: 12px;
@@ -13,10 +14,12 @@
   width: 60px;
   height: 60px;
   flex: 0 0 60px;
-  background: white;
-  padding: 2px;
-  border: 1px solid #e4eaf1;
-  border-radius: 10px;
+  /* The source PNG has an opaque #ececec background. Match it and remove the
+     white border treatment so the image does not look double-framed. */
+  background: var(--ucsa-logo-background);
+  padding: 3px;
+  border: 0;
+  border-radius: 0;
 }
 .ucsa-brand .ucsa-logo-frame img {
   width: 100%;
