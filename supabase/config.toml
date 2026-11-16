@@ -16,13 +16,13 @@ enabled = true
 port = 55023
 [auth]
 enabled = true
-site_url = "http://localhost:3100"
-additional_redirect_urls = ["http://localhost:3000/**", "http://127.0.0.1:3100/**", "http://localhost:3100/**"]
+site_url = "https://ucsa-election-system.vercel.app"
+additional_redirect_urls = ["https://ucsa-election-system.vercel.app/account/callback", "http://localhost:3000/**", "http://127.0.0.1:3100/**", "http://localhost:3100/**"]
 jwt_expiry = 3600
 jwt_secret = "env(SUPABASE_LOCAL_JWT_SECRET)"
 secret_key = "env(SUPABASE_LOCAL_SECRET_KEY)"
 publishable_key = "env(SUPABASE_LOCAL_PUBLISHABLE_KEY)"
-enable_signup = true
+enable_signup = false
 enable_anonymous_sign_ins = false
 enable_manual_linking = false
 [auth.email]
