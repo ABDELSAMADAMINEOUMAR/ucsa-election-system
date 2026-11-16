@@ -1,0 +1,49 @@
+project_id = "ucsa-election-system"
+[api]
+enabled = true
+port = 55021
+schemas = ["public", "storage", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+[db]
+port = 55022
+shadow_port = 55020
+major_version = 17
+[db.seed]
+enabled = false
+[studio]
+enabled = true
+port = 55023
+[auth]
+enabled = true
+site_url = "http://localhost:3100"
+additional_redirect_urls = ["http://localhost:3000/**", "http://127.0.0.1:3100/**", "http://localhost:3100/**"]
+jwt_expiry = 3600
+jwt_secret = "env(SUPABASE_LOCAL_JWT_SECRET)"
+secret_key = "env(SUPABASE_LOCAL_SECRET_KEY)"
+publishable_key = "env(SUPABASE_LOCAL_PUBLISHABLE_KEY)"
+signing_keys_path = "./local-signing-keys.json"
+enable_signup = true
+enable_anonymous_sign_ins = false
+enable_manual_linking = false
+[auth.email]
+enabled = true
+double_confirm_changes = true
+enable_confirmations = true
+secure_password_change = true
+otp_expiry = 3600
+max_frequency = "60s"
+[storage]
+enabled = true
+file_size_limit = "2MiB"
+[local_smtp]
+enabled = true
+port = 55024
+smtp_port = 55025
+pop3_port = 55026
+[analytics]
+enabled = false
+port = 55027
+
+
+

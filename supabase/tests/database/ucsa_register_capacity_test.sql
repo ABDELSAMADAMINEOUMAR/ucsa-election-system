@@ -1,0 +1,38 @@
+begin;
+create extension if not exists pgtap with schema extensions;
+do $$ declare f record; begin
+ for f in select p.oid::regprocedure signature from pg_proc p join pg_depend d on d.objid=p.oid and d.classid='pg_proc'::regclass join pg_extension e on e.oid=d.refobjid and d.refclassid='pg_extension'::regclass where e.extname='pgtap' and d.deptype='e' loop execute format('grant execute on function %s to anon,authenticated,service_role',f.signature); end loop;
+end $$;
+select no_plan();
+insert into auth.users(id,aud,role,email,email_confirmed_at,raw_app_meta_data,raw_user_meta_data,created_at,updated_at)
+select ('99000000-0000-4000-8000-'||lpad(n::text,12,'0'))::uuid,'authenticated','authenticated','capacity-reviewer-'||n||'@example.test',now(),'{}','{}',now(),now() from generate_series(1,2)n;
+insert into auth.sessions(id,user_id,created_at,updated_at) select id,id,now(),now() from auth.users where id::text like '99000000-%';
+insert into public.committee_members(user_id,role) values('99000000-0000-4000-8000-000000000001','committee_chair'),('99000000-0000-4000-8000-000000000002','verification_officer');
+set local request.jwt.claim.sub='99000000-0000-4000-8000-000000000002';
+set local request.jwt.claims='{"session_id":"99000000-0000-4000-8000-000000000002"}';
+set local role authenticated;
+select set_config('test.capacity_id',public.stage_official_register(jsonb_build_object('title','Synthetic 5000 voter capacity','reason','Rollback-only authorized capacity rehearsal','classification','synthetic','membershipOpens',now()-interval '3 days','membershipCloses',now()-interval '2 days','activationOpens',now()-interval '1 hour','activationCloses',now()+interval '1 day','fileName','capacity.csv','sourceSha256',repeat('c',64),'requestKey','99100000-0000-4000-8000-000000000001','rows',(select jsonb_agg(jsonb_build_object('fullName','Fictional Capacity Student '||n,'registrationNumber','CAPACITY-'||n,'email','capacity-'||n||'@example.test') order by n) from generate_series(1,5000)n)))::text,true);
+select is((public.get_register_preview(current_setting('test.capacity_id')::uuid,200)->>'total')::integer,5000,'complete 5000-row source is retained');
+select is(jsonb_array_length(public.get_register_preview(current_setting('test.capacity_id')::uuid,200)->'rows'),25,'last preview page is bounded to 25 entries');
+select is((public.get_register_preview(current_setting('test.capacity_id')::uuid,1)->>'invalid')::integer,0,'all 5000 required identities validate');
+select throws_ok($$select public.approve_official_register(current_setting('test.capacity_id')::uuid,(public.get_register_preview(current_setting('test.capacity_id')::uuid,1)->>'snapshot'))$$,'P0001',null,'uploading reviewer cannot approve register');
+set local request.jwt.claim.sub='99000000-0000-4000-8000-000000000001';
+set local request.jwt.claims='{"session_id":"99000000-0000-4000-8000-000000000001"}';
+select set_config('test.capacity_start',clock_timestamp()::text,true);
+select lives_ok($$select public.approve_official_register(current_setting('test.capacity_id')::uuid,(public.get_register_preview(current_setting('test.capacity_id')::uuid,1)->>'snapshot'))$$,'independent chair atomically approves 5000 identities');
+select cmp_ok(extract(epoch from(clock_timestamp()-current_setting('test.capacity_start')::timestamptz)),'<',60::numeric,'bounded 5000-row approval finishes within 60 seconds locally');
+select is((select count(*) from public.official_register_entries where register_id=current_setting('test.capacity_id')::uuid),5000::bigint,'all 5000 approved entries are present');
+select is((select count(*) from public.admin_audit_events where action='register_approved_locked' and entity_id=current_setting('test.capacity_id')::uuid),1::bigint,'one attributed approval event for the complete source');
+select is((select count(*) from public.election_eligibility where reason like '%capacity%'),0::bigint,'register approval does not grant voter eligibility');
+set local request.jwt.claim.sub='99000000-0000-4000-8000-000000000002';
+set local request.jwt.claims='{"session_id":"99000000-0000-4000-8000-000000000002"}';
+select is((select count(*) from public.official_registers where id=current_setting('test.capacity_id')::uuid),0::bigint,'reviewer cannot read the approved source after locking');
+select throws_ok($$select public.get_register_preview(current_setting('test.capacity_id')::uuid,1)$$,'P0001',null,'approved private source is not exposed through reviewer preview');
+select set_config('test.bad_id',public.stage_official_register(jsonb_build_object('title','Synthetic duplicate successor','reason','Rollback-only duplicate rejection rehearsal','classification','synthetic','membershipOpens',now()-interval '3 days','membershipCloses',now()-interval '2 days','activationOpens',now()-interval '1 hour','activationCloses',now()+interval '1 day','fileName','duplicate.csv','sourceSha256',repeat('d',64),'requestKey','99100000-0000-4000-8000-000000000002','rows','[{"fullName":"Duplicate One","registrationNumber":"DUP-001","email":"dup-one@example.test"},{"fullName":"Duplicate Two","registrationNumber":"DUP-001","email":"dup-two@example.test"}]'::jsonb))::text,true);
+select is((public.get_register_preview(current_setting('test.bad_id')::uuid,1)->>'invalid')::integer,2,'file-wide duplicate rows are both flagged');
+set local request.jwt.claim.sub='99000000-0000-4000-8000-000000000001';
+set local request.jwt.claims='{"session_id":"99000000-0000-4000-8000-000000000001"}';
+select throws_ok($$select public.approve_official_register(current_setting('test.bad_id')::uuid,(public.get_register_preview(current_setting('test.bad_id')::uuid,1)->>'snapshot'))$$,'P0001',null,'invalid successor cannot be partially approved');
+select is((select count(*) from public.official_register_entries where register_id=current_setting('test.bad_id')::uuid),0::bigint,'failed approval writes no authoritative entries');
+select * from finish();
+rollback;

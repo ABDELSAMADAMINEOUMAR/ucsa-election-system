@@ -1,0 +1,63 @@
+{
+  "name": "ucsa-election-system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint --max-warnings=0",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "playwright test",
+    "test:logic": "playwright test tests/logic.spec.ts",
+    "test:e2e": "playwright test tests/journeys.spec.ts",
+    "test:auth": "playwright test tests/auth.integration.spec.ts",
+    "test:voting": "playwright test tests/voting.concurrent.spec.ts --workers=1",
+    "test:phase4": "playwright test tests/phase4.spec.ts tests/phase4.pdf.spec.ts --workers=1",
+    "test:phase5": "playwright test tests/phase5.security.spec.ts tests/voting.concurrent.spec.ts --workers=1",
+    "test:recovery": "node scripts/phase5-db-rehearsal.mjs",
+    "test:local-secrets": "node --test scripts/init-local-secrets.test.mjs",
+    "test:db": "supabase test db",
+    "db:start": "supabase start",
+    "local:secrets": "node scripts/init-local-secrets.mjs",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "format": "prettier --write src tests playwright.config.ts"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^7.0.3",
+    "@pdf-lib/fontkit": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.3.1",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.0",
+    "fast-xml-parser": "^5.12.1",
+    "fflate": "^0.8.3",
+    "lucide-react": "^1.70.0",
+    "next": "16.4.5",
+    "pdf-lib": "^1.17.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-hook-form": "^7.91.0",
+    "sharp": "^0.35.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.5",
+    "prettier": "^3.9.10",
+    "supabase": "^3.0.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "overrides": {
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "11.0.5"
+    }
+  }
+}

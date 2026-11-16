@@ -1,0 +1,701 @@
+:root {
+  --ucsa-primary: #1264a3;
+  --ucsa-surface: #fff;
+  --ucsa-radius: 10px;
+}
+.ucsa-brand {
+  gap: 12px;
+  min-width: 0;
+}
+.ucsa-logo-frame {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  flex: 0 0 60px;
+  background: white;
+  padding: 2px;
+  border: 1px solid #e4eaf1;
+  border-radius: 10px;
+}
+.ucsa-brand .ucsa-logo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: none;
+  border-radius: 0;
+}
+.ucsa-brand strong {
+  font-size: 24px;
+  letter-spacing: -0.7px;
+}
+.ucsa-brand small {
+  font-size: 9px;
+  letter-spacing: 1.25px;
+}
+.workspace-shell {
+  min-height: 100dvh;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 254px minmax(0, 1fr);
+  background: #f5f7fa;
+}
+.workspace-sidebar {
+  background: #112b49;
+  color: #d8e4f0;
+  padding: 24px 16px;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.workspace-sidebar .brand {
+  color: white;
+  padding-inline: 6px;
+}
+.workspace-sidebar .brand small {
+  color: #c1d1e2;
+}
+.workspace-section-label {
+  font-size: 11px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 8px;
+  color: #c1d1e2;
+}
+.workspace-nav {
+  display: grid;
+  gap: 4px;
+}
+.workspace-nav a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: inherit;
+  text-decoration: none;
+}
+.workspace-nav a:hover {
+  background: #213f60;
+}
+.workspace-nav a[aria-current="page"] {
+  background: #1e5e98;
+  color: white;
+  box-shadow: inset 3px 0 #80c5ff;
+}
+.sidebar-footer {
+  margin-top: auto;
+  border-top: 1px solid #3b5069;
+  padding: 18px 10px 0;
+  font-size: 12px;
+  color: #c1d1e2;
+}
+.workspace-body {
+  min-width: 0;
+}
+.workspace-topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 86px;
+  padding: 16px 32px;
+  border-bottom: 1px solid #e2e8f0;
+  background: white;
+}
+.workspace-account {
+  display: grid;
+  min-width: 0;
+  margin-right: auto;
+}
+.workspace-account strong {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+.workspace-account span {
+  color: #596b80;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.workspace-topbar .badge {
+  text-transform: capitalize;
+}
+.workspace-environment {
+  padding: 7px 32px;
+  font-size: 11px;
+  color: #53677d;
+  border-bottom: 1px solid #e2e8f0;
+  background: #fafbfd;
+}
+.workspace-menu {
+  display: none;
+}
+.workspace-mobile-brand {
+  display: inline-flex;
+}
+.workspace-shell .account-workspace {
+  width: auto;
+  max-width: 1440px;
+  padding: 30px 32px 64px;
+  margin: 0 auto;
+}
+.workspace-shell .account-workspace > .welcome-header,
+.workspace-shell .account-workspace > .brand {
+  display: none;
+}
+.workspace-shell .page-header {
+  margin-bottom: 6px;
+}
+.workspace-shell h1 {
+  font-size: clamp(25px, 3vw, 34px);
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+}
+.workspace-shell h2 {
+  font-size: 18px;
+  letter-spacing: -0.3px;
+}
+.workspace-shell .card {
+  border: 1px solid #dee5ee;
+  border-radius: var(--ucsa-radius);
+  padding: 22px;
+  box-shadow: 0 2px 5px #102b4d04;
+}
+.workspace-shell .btn {
+  min-height: 42px;
+  border-radius: 7px;
+  font-size: 13px;
+  padding: 10px 15px;
+}
+.workspace-shell .field input,
+.workspace-shell .field select,
+.workspace-shell .field textarea {
+  border: 1px solid #cad5e2;
+  border-radius: 7px;
+  background: #fff;
+  min-height: 44px;
+}
+.workspace-shell .notice {
+  border-radius: 8px;
+}
+.workspace-shell .secure-record {
+  gap: 14px;
+}
+.workspace-shell .account-grid {
+  gap: 16px;
+}
+.workspace-shell .secure-record-title p {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.workspace-shell .stack {
+  gap: 20px;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+}
+.metric {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #dee5ee;
+}
+.metric strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 30px;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  color: #113656;
+}
+.metric span {
+  font-size: 12px;
+  font-weight: 550;
+  color: #53677d;
+}
+.workspace-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.workspace-section-heading h2 {
+  margin: 0;
+}
+.admin-table-wrap {
+  overflow-x: auto;
+  max-width: 100%;
+  border: 1px solid #dee5ee;
+  border-radius: 9px;
+  background: white;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+.admin-table th {
+  padding: 13px 16px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #53677d;
+  background: #f8fafc;
+  white-space: nowrap;
+  border-bottom: 1px solid #dee5ee;
+}
+.admin-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e8edf3;
+  vertical-align: middle;
+}
+.admin-table tr:last-child td {
+  border-bottom: 0;
+}
+.admin-table tbody tr:hover {
+  background: #f9fbfd;
+}
+.admin-table td small {
+  display: block;
+  color: #53677d;
+  overflow-wrap: anywhere;
+}
+.admin-table input[type="checkbox"] {
+  width: 19px;
+  height: 19px;
+  min-height: 19px;
+  accent-color: #1264a3;
+}
+.admin-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+}
+.admin-toolbar .field {
+  flex: 1;
+  min-width: 150px;
+}
+.admin-toolbar .field input,
+.admin-toolbar .field select {
+  width: 100%;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  color: #53677d;
+  font-size: 13px;
+}
+.bulk-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid #bad2e9;
+  border-radius: 8px;
+  padding: 14px 18px;
+  background: #eef6fd;
+}
+.bulk-bar strong {
+  margin-right: auto;
+}
+.empty-state {
+  text-align: center;
+  padding: 40px 24px;
+  color: #53677d;
+  background: white;
+  border: 1px dashed #bdcbdc;
+  border-radius: 10px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.form-fields {
+  border: 0;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+.record-list {
+  display: grid;
+  gap: 10px;
+}
+.record-list a {
+  padding: 16px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.workspace-drawer .workspace-nav {
+  color: #193854;
+  margin-top: 20px;
+}
+.workspace-drawer .workspace-nav a:hover {
+  background: #edf3f9;
+}
+.workspace-drawer .workspace-nav a[aria-current="page"] {
+  background: #1264a3;
+  color: white;
+}
+.workspace-shell .eyebrow {
+  color: #4e6981;
+}
+.admin-table td,
+.workspace-shell p {
+  overflow-wrap: anywhere;
+}
+.workspace-shell :focus-visible,
+.ucsa-brand:focus-visible {
+  outline: 3px solid #2c89d5;
+  outline-offset: 3px;
+}
+.member-details summary {
+  cursor: pointer;
+  color: #1264a3;
+  font-size: 12px;
+}
+.member-details code {
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.auth-page .ucsa-brand,
+.welcome-page .ucsa-brand {
+  align-items: center;
+}
+.auth-page .auth-card {
+  border-radius: 12px;
+  box-shadow: 0 12px 36px #102b4d09;
+}
+.auth-page .auth-main {
+  padding-top: 32px;
+}
+@media (max-width: 1050px) {
+  .workspace-shell {
+    grid-template-columns: 224px minmax(0, 1fr);
+  }
+  .workspace-shell .account-workspace {
+    padding: 24px;
+  }
+  .workspace-topbar {
+    padding: 14px 24px;
+  }
+}
+@media (max-width: 800px) {
+  .workspace-shell {
+    display: block;
+  }
+  .workspace-sidebar {
+    display: none;
+  }
+  .workspace-menu,
+  .workspace-mobile-brand {
+    display: inline-flex;
+  }
+  .workspace-topbar {
+    padding: 12px 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .workspace-topbar .badge {
+    display: none;
+  }
+  .workspace-account {
+    flex: 1;
+  }
+  .workspace-mobile-brand .ucsa-logo-frame {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+  .workspace-shell .account-workspace {
+    padding: 24px 16px 48px;
+  }
+  .workspace-environment {
+    padding-inline: 16px;
+  }
+  .workspace-shell .account-actions > .btn {
+    flex: 0 1 auto;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 480px) {
+  .workspace-topbar .workspace-account span {
+    display: none;
+  }
+  .workspace-topbar .btn {
+    padding: 8px;
+    font-size: 12px;
+  }
+  .workspace-shell .card {
+    padding: 18px;
+  }
+  .admin-toolbar {
+    align-items: stretch;
+  }
+  .admin-toolbar > .field {
+    flex-basis: 100%;
+  }
+  .bulk-bar {
+    padding: 12px;
+  }
+  .metric {
+    padding: 16px;
+  }
+  .admin-table th,
+  .admin-table td {
+    padding: 12px;
+  }
+}
+@media print {
+  .workspace-sidebar,
+  .workspace-topbar,
+  .workspace-environment,
+  .workspace-menu {
+    display: none;
+  }
+  .workspace-shell {
+    display: block;
+  }
+  .admin-table-wrap {
+    overflow: visible;
+  }
+}
+
+/* Keep official identities readable without horizontal scrolling on phones. */
+@media (max-width: 600px) {
+  .official-register-preview .admin-table,
+  .official-register-preview tbody,
+  .official-register-preview tr {
+    display: block;
+    width: 100%;
+  }
+  .official-register-preview thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .official-register-preview tbody tr {
+    padding: 12px;
+    border-bottom: 1px solid #dee5ee;
+  }
+  .official-register-preview tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .official-register-preview .admin-table td {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 10px;
+    padding: 5px 0;
+    border: 0;
+    overflow-wrap: anywhere;
+  }
+  .official-register-preview td::before {
+    content: attr(data-label);
+    color: #53677d;
+    font-weight: 600;
+  }
+}
+
+/* Simple task-focused voter and committee workspaces. */
+.student-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  background: #fff;
+  border: 1px solid var(--border, #dce3ed);
+  border-radius: 12px;
+}
+.student-summary > div {
+  flex: 1;
+  min-width: 140px;
+}
+.student-summary strong {
+  display: block;
+  font-size: 1.7rem;
+  color: #16335b;
+}
+.account-workspace code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.account-workspace details > summary {
+  min-height: 44px;
+  cursor: pointer;
+  padding: 0.7rem 0;
+  font-weight: 600;
+}
+.account-workspace input,
+.account-workspace select,
+.account-workspace textarea {
+  max-width: 100%;
+}
+@media (max-width: 600px) {
+  .student-summary {
+    gap: 1rem;
+    padding: 1rem;
+  }
+  .heading-row {
+    flex-wrap: wrap;
+  }
+  .account-actions {
+    flex-wrap: wrap;
+  }
+  .account-workspace .btn {
+    min-height: 44px;
+  }
+}
+
+.public-home {
+  background: #f7f9fc;
+  min-height: 100vh;
+}
+.public-home > .container {
+  width: min(calc(100% - 40px), 1120px);
+  max-width: none;
+  margin-inline: auto;
+}
+.public-home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+.public-home-header nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.public-home-header nav > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.public-home-hero {
+  max-width: 760px;
+  padding: 2.8rem 0 1.5rem;
+}
+.public-home-hero h1 {
+  font-size: clamp(2.3rem, 5vw, 3.8rem);
+  line-height: 1.12;
+  color: #15345c;
+  margin: 1rem 0;
+}
+.public-home-hero > p:not(.eyebrow) {
+  font-size: 1.1rem;
+  max-width: 640px;
+  color: #51617a;
+}
+.public-home-hero .account-actions {
+  margin: 1.5rem 0;
+}
+.public-home-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+}
+.public-home-steps article {
+  border-top: 2px solid #dbe4ef;
+  padding: 1.25rem 0;
+}
+.public-home-steps svg {
+  color: #245fa1;
+}
+.public-home-steps h2 {
+  font-size: 1.1rem;
+  margin: 0.75rem 0;
+}
+.public-home-steps p,
+.public-home-support p {
+  color: #52627b;
+}
+.public-home-support {
+  padding: 1.5rem 0;
+}
+.public-home-demo {
+  border-top: 1px solid #dce4ef;
+  padding: 1rem 0;
+}
+.public-home-demo summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+}
+.public-home-footer {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  color: #53637b;
+  font-size: 0.9rem;
+}
+@media (max-width: 600px) {
+  .public-home-header .ucsa-logo-frame {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+  .public-home-header .ucsa-brand small {
+    display: none;
+  }
+  .public-home-header {
+    align-items: flex-start;
+  }
+  .public-home-header nav {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+  }
+  .public-home-hero {
+    padding: 1.5rem 0 1rem;
+  }
+  .public-home-steps {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .public-home-steps article {
+    padding: 1rem 0;
+  }
+}
+.deployment-notice {
+  padding: .6rem 1rem;
+  background: #fff6dd;
+  color: #573900;
+  border-bottom: 1px solid #e6d3a4;
+  text-align: center;
+  font-size: .8rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
