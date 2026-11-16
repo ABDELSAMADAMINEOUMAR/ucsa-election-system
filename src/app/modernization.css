@@ -690,12 +690,12 @@
   }
 }
 .deployment-notice {
-  padding: .6rem 1rem;
-  background: #fff6dd;
-  color: #573900;
-  border-bottom: 1px solid #e6d3a4;
+  padding: 0.7rem 1rem;
+  background: #edf4fb;
+  color: #24496f;
+  border-bottom: 1px solid #d3e1ef;
   text-align: center;
-  font-size: .8rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   overflow-wrap: anywhere;
 }

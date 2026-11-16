@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, Users, Vote } from "lucide-react";
-import { Logo, Notice } from "./ui";
+import { ArrowRight, FileCheck2, ShieldCheck, Users } from "lucide-react";
+import { isPublicRegistrationEnabled } from "@/lib/registration-policy";
+import { Logo } from "./ui";
 export function Welcome() {
+  const registrationEnabled = isPublicRegistrationEnabled();
   return (
     <div className="public-home">
       <a className="skip-link" href="#welcome-main">
@@ -11,9 +13,6 @@ export function Welcome() {
         <Logo />
         <nav aria-label="Main navigation">
           <Link href="/help">Help</Link>
-          <Link className="btn btn-secondary" href="/account/sign-in">
-            Secure sign in
-          </Link>
         </nav>
       </header>
       <main id="welcome-main" className="container stack">
@@ -27,79 +26,60 @@ export function Welcome() {
             Your UCSA elections.
           </h1>
           <p>
-            One approved membership register. Clear account activation. A simple
-            way to follow candidates and participate when you are eligible.
+            Access-controlled tools for UCSA committee management, including
+            membership administration, candidate review, complaints, and
+            certification workflows.
           </p>
           <div className="account-actions">
-            <Link className="btn btn-primary" href="/account/register">
-              Create an account <ArrowRight size={18} />
+            <Link className="btn btn-primary" href="/account/sign-in">
+              Sign in <ArrowRight size={18} />
             </Link>
-            <Link className="btn btn-secondary" href="/account/sign-in">
-              Sign in
-            </Link>
+            {registrationEnabled ? (
+              <Link className="btn btn-secondary" href="/account/register">
+                Create an account
+              </Link>
+            ) : null}
           </div>
-          <Notice tone="yellow">
-            Demonstration environment. Use fictional identities only. Real
-            electronic voting is disabled pending independent security review.
-          </Notice>
         </section>
         <section
           className="public-home-steps"
-          aria-label="How student access works"
+          aria-label="Management capabilities"
         >
           <article>
             <Users />
-            <h2>Approved membership</h2>
+            <h2>Membership administration</h2>
             <p>
-              The committee checks membership through the official UCSA
-              registration process.
+              Authorized committee members can manage the approved register and
+              account activation through restricted workflows.
             </p>
           </article>
           <article>
             <ShieldCheck />
-            <h2>Confirm and activate</h2>
+            <h2>Candidate review</h2>
             <p>
-              Confirm your email and securely match your official registration
-              number. A number alone never grants access.
+              Review candidate applications and decisions within the protected
+              management workspace.
             </p>
           </article>
           <article>
-            <Vote />
-            <h2>Participate when eligible</h2>
+            <FileCheck2 />
+            <h2>Complaints and certification</h2>
             <p>
-              Follow available positions and apply during nominations. Ballot
-              demonstrations use fictional elections only.
+              Support case handling, audit review, and election certification
+              records for authorized committee roles.
             </p>
           </article>
         </section>
         <section className="public-home-support">
-          <h2>Need help with your registration?</h2>
+          <h2>Need help accessing the system?</h2>
           <p>
-            Contact the committee about a missing entry, incorrect details or
-            account access.
+            Contact the UCSA committee about account activation, access, or
+            system availability.
           </p>
           <Link className="text-link" href="/help">
-            Request help or a correction
+            Get help
           </Link>
         </section>
-        <details className="public-home-demo">
-          <summary>Explore the separate fictional demonstration</summary>
-          <p>
-            These Phase 1 screens use fictional data and do not authenticate
-            accounts or manage the protected election.
-          </p>
-          <div className="account-actions">
-            <Link href="/sign-in" className="text-link">
-              Student portal demo
-            </Link>
-            <Link href="/committee" className="text-link">
-              Committee demo
-            </Link>
-            <Link href="/student/results" className="text-link">
-              Demo results
-            </Link>
-          </div>
-        </details>
       </main>
       <footer className="container public-home-footer">
         UCSA · Chadian Students Association · UNILAK, Kigali

@@ -33,7 +33,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col">
         <div className="deployment-notice" role="status">
-          UCSA demonstration · Fictional data only · Real electronic voting disabled
+          <strong>Management-only service.</strong> Online voting is currently
+          unavailable. Use fictional data until UCSA approves the system for
+          student records.
         </div>
         <DemoProvider
           officialLogoAvailable={existsSync(
