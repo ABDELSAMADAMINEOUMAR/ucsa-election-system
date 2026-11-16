@@ -5,6 +5,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { errorResponse, sameOrigin } from "@/lib/supabase/http";
 import { isSupabaseConfigured } from "@/lib/supabase/shared";
 import { publicRateLimit } from "@/lib/public-rate-limit";
+import { authCallbackUrl } from "@/lib/auth-redirect";
 
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request))
@@ -23,7 +24,7 @@ export async function POST(request: NextRequest) {
   await supabase.auth.resetPasswordForEmail(
     parsed.data.email.trim().toLowerCase(),
     {
-      redirectTo: `${request.nextUrl.origin}/account/callback?next=/account/reset-password/new`,
+      redirectTo: authCallbackUrl(request.nextUrl.origin, "/account/reset-password/new"),
     },
   );
   return NextResponse.json({

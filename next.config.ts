@@ -14,6 +14,13 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  // PDF routes read bundled fonts and the logo from disk at runtime.
+  outputFileTracingIncludes: {
+    "/api/**": ["./src/lib/reports/fonts/*.ttf", "./public/ucsa-logo.png"],
+  },
+  outputFileTracingExcludes: {
+    "/*": ["./.env*", "./supabase/**", "./tests/**", "./test-results/**", "./playwright-report/**"],
+  },
   async headers() {
     return [{
       source: "/:path*",

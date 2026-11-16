@@ -10,6 +10,7 @@ playwright-report/
 delivery/
 .env*
 !.env.example
+!.env.production.example
 supabase/.temp/
 supabase/.branches/
 supabase/local-signing-keys.json
@@ -31,3 +32,6 @@ next-env.d.ts
 *.zip
 *.tar*
 .DS_Store
+
+.vercel
+.env*

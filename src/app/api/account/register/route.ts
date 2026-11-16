@@ -12,6 +12,7 @@ import {
   isSupabaseConfigured,
 } from "@/lib/supabase/shared";
 import { publicRateLimit } from "@/lib/public-rate-limit";
+import { authCallbackUrl } from "@/lib/auth-redirect";
 
 const confirmationResponse = {
   message:
@@ -38,14 +39,13 @@ export async function POST(request: NextRequest) {
     if (!(await publicRateLimit("signup", parsed.data.email)))
       return errorResponse(429, "Please wait before trying again.");
     const supabase = await createSupabaseServerClient();
-    const origin = request.nextUrl.origin;
     const { error } = await supabase.auth.signUp({
       email: parsed.data.email,
       password: parsed.data.password,
       // This metadata is an untrusted claim, never authority or a name source.
       options: {
         data: { requested_registration: parsed.data.registrationNumber },
-        emailRedirectTo: `${origin}/account/callback?next=/account/activate`,
+        emailRedirectTo: authCallbackUrl(request.nextUrl.origin, "/account/activate"),
       },
     });
     // Keep body and status indistinguishable for new, existing and rejected

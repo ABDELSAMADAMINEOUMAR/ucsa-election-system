@@ -1,0 +1,14 @@
+.git
+.env*
+node_modules
+.next
+supabase
+tests
+scripts
+docs
+playwright-report
+test-results
+coverage
+delivery
+*.log
+*.tsbuildinfo
