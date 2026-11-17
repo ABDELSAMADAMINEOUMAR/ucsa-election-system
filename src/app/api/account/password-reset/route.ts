@@ -6,6 +6,7 @@ import { errorResponse, sameOrigin } from "@/lib/supabase/http";
 import { isSupabaseConfigured } from "@/lib/supabase/shared";
 import { publicRateLimit } from "@/lib/public-rate-limit";
 import { recoveryCallbackUrl } from "@/lib/auth-redirect";
+import { requestRecoveryDelivery } from "@/lib/recovery-delivery";
 
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request))
@@ -20,30 +21,16 @@ export async function POST(request: NextRequest) {
     return errorResponse(400, "Enter a valid email address.");
   if (!(await publicRateLimit("recovery", parsed.data.email)))
     return errorResponse(429, "Please wait before requesting another email.");
-  try {
+  const acknowledgement = await requestRecoveryDelivery(async () => {
     const supabase = await createSupabaseServerClient();
-    const { error } = await supabase.auth.resetPasswordForEmail(
+    return supabase.auth.resetPasswordForEmail(
       parsed.data.email.trim().toLowerCase(),
       {
         redirectTo: recoveryCallbackUrl(request.nextUrl.origin),
       },
     );
-    if (error)
-      return errorResponse(
-        error.status === 429 ? 429 : 503,
-        "Password recovery is temporarily unavailable. Please try again later.",
-      );
-  } catch {
-    return errorResponse(
-      503,
-      "Password recovery is temporarily unavailable. Please try again later.",
-    );
-  }
-  return NextResponse.json(
-    {
-      message:
-        "If an account exists for this address, password reset instructions will arrive by email. Open the newest link in the same browser where you requested it.",
-    },
-    { headers: { "Cache-Control": "private, no-store" } },
-  );
+  });
+  return NextResponse.json(acknowledgement, {
+    headers: { "Cache-Control": "private, no-store" },
+  });
 }

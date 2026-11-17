@@ -5,6 +5,7 @@ export default defineConfig({
   testMatch: [
     "recovery.check.ts",
     "auth-redirect.logic.spec.ts",
+    "recovery-delivery.logic.spec.ts",
     "registration-closed.check.ts",
   ],
   outputDir: "test-results/recovery",
