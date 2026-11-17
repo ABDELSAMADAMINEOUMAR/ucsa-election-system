@@ -49,9 +49,11 @@ const config = {
 export function AccountForm({
   mode,
   registrationEnabled = true,
+  invalidRecoveryLink = false,
 }: {
   mode: Mode;
   registrationEnabled?: boolean;
+  invalidRecoveryLink?: boolean;
 }) {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -123,11 +125,27 @@ export function AccountForm({
           <Badge tone="blue">UCSA secure account</Badge>
           <h2>{current.title}</h2>
           <p className="muted">{current.description}</p>
-          <Notice>
-            Email confirmation and an approved register match are required for
-            student access. Creating an account never grants committee
-            privileges.
-          </Notice>
+          {mode === "reset" || mode === "new-password" ? (
+            <Notice>
+              Recover your existing UCSA student or committee account.
+              Registration and a student registration number are not required to
+              reset a password. Open the newest email link in the same browser
+              where you requested it.
+            </Notice>
+          ) : (
+            <Notice>
+              Email confirmation and an approved register match are required for
+              student access. Creating an account never grants committee
+              privileges.
+            </Notice>
+          )}
+          {invalidRecoveryLink && (
+            <Notice tone="yellow">
+              This reset link is invalid, expired, already used, or was opened
+              in a different browser. Request a new link below and open it in
+              this browser.
+            </Notice>
+          )}
           {mode === "register" && !registrationEnabled ? (
             <div className="stack">
               <Notice tone="yellow">
@@ -152,7 +170,9 @@ export function AccountForm({
                   {field === "registrationNumber"
                     ? "UNILAK registration number"
                     : field === "email"
-                      ? "Student email"
+                      ? mode === "reset"
+                        ? "Account email"
+                        : "Student email"
                       : "Password"}
                   <span
                     className={
@@ -196,7 +216,9 @@ export function AccountForm({
                         field === "registrationNumber"
                           ? "Your official registration number"
                           : field === "email"
-                            ? "Email on the approved register"
+                            ? mode === "reset"
+                              ? "Your existing account email"
+                              : "Email on the approved register"
                             : "12+ characters, letter and number"
                       }
                     />
@@ -258,10 +280,14 @@ export function AccountForm({
               <Link href="/account/reset-password" className="text-link small">
                 Forgot password?
               </Link>
-              <span className="muted small">NEW TO UCSA?</span>
-              <Link href="/account/register" className="text-link">
-                Create a student account <ArrowRight size={15} />
-              </Link>
+              {registrationEnabled && (
+                <>
+                  <span className="muted small">NEW TO UCSA?</span>
+                  <Link href="/account/register" className="text-link">
+                    Create a student account <ArrowRight size={15} />
+                  </Link>
+                </>
+              )}
             </div>
           )}
           {mode === "register" && (
@@ -270,14 +296,23 @@ export function AccountForm({
               secure account activation.
             </p>
           )}
-          <Link className="text-link" href="/help">
-            Need help or a register correction?
-          </Link>
-          <div className="auth-demo-entry">
-            <Link className="text-link small" href="/sign-in">
-              Return to Phase 1 demo entry
+          {(mode === "reset" || mode === "new-password") && !message && (
+            <Link className="text-link" href="/account/sign-in">
+              Back to sign in
             </Link>
-          </div>
+          )}
+          <Link className="text-link" href="/help">
+            {mode === "reset" || mode === "new-password"
+              ? "Need help accessing your account?"
+              : "Need help or a register correction?"}
+          </Link>
+          {mode !== "reset" && mode !== "new-password" && (
+            <div className="auth-demo-entry">
+              <Link className="text-link small" href="/sign-in">
+                Return to Phase 1 demo entry
+              </Link>
+            </div>
+          )}
         </Card>
       </main>
     </div>

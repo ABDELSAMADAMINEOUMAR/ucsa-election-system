@@ -228,7 +228,7 @@ test("registration, email verification, student status, password recovery and si
   await page.getByRole("button", { name: "Sign out" }).click();
   await expect(page).toHaveURL(/\/account\/sign-in$/);
   await page.goto("/account/reset-password");
-  await page.getByLabel("Student email").fill(email);
+  await page.getByLabel("Account email").fill(email);
   await page.getByRole("button", { name: "Send reset link" }).click();
   await expect(
     page.getByText(/If an account exists for this address/),

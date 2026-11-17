@@ -1,13 +1,17 @@
-import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { isSupabaseConfigured } from "@/lib/supabase/shared";
+import { NextRequest } from "next/server";
+import { completeAuthCallback } from "@/lib/supabase/callback";
+import { authCallbackDestination } from "@/lib/auth-redirect";
 
 export async function GET(request: NextRequest) {
-  const code = request.nextUrl.searchParams.get("code");
-  const destination = request.nextUrl.searchParams.get("next");
-  const safeNext = destination?.startsWith("/account/") || destination === "/account" ? destination : "/account";
-  if (!isSupabaseConfigured() || !code) return NextResponse.redirect(new URL("/account/sign-in?notice=link-invalid", request.url));
-  const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.auth.exchangeCodeForSession(code);
-  return NextResponse.redirect(new URL(error ? "/account/sign-in?notice=link-invalid" : safeNext, request.url));
+  const destination = authCallbackDestination(
+    request.nextUrl.searchParams.get("next"),
+  );
+  // Continue supporting previously sent PKCE recovery emails.
+  return completeAuthCallback(
+    request,
+    destination,
+    destination === "/account/reset-password/new"
+      ? "/account/reset-password?notice=link-invalid"
+      : "/account/sign-in?notice=link-invalid",
+  );
 }
